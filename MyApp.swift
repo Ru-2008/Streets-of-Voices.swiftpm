@@ -2,13 +2,18 @@ import SwiftUI
 
 @main
 struct MyApp: App {
-    typealias Body = <#type#>
-    
+
     @StateObject private var appState = AppState()
 
-    var body: some Scene {
+    var body: some SwiftUI.Scene {
         WindowGroup {
-            ContentView(appState: appState)
+            if !appState.hasSeenOnboarding {
+                OnboardingCarouselView()
+                    .environmentObject(appState)
+            } else {
+                MainTabView(appState: appState)
+                    .environmentObject(appState)
+            }
         }
     }
 }

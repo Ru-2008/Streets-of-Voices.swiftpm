@@ -14,15 +14,16 @@ struct TownMapView: View {
                     }
                 }
             }
-            .padding()
+            .padding(.horizontal)
+            .padding(.bottom)
         }
         .sheet(item: $sceneLocation) { location in
             LocationSceneView(location: location, appState: appState)
                 .presentationDetents([.medium, .large])
         }
-        .sheet(item: $inaccessibleLocation) { location in
+        .sheet(item: $inaccessibleLocation) { loc in
             InaccessibleMessageView(
-                location: location,
+                location: loc,
                 characterName: appState.selectedCharacter?.name ?? "",
                 onDismiss: { inaccessibleLocation = nil }
             )
@@ -85,9 +86,9 @@ struct LocationSceneView: View {
         NavigationStack {
             Group {
                 if location.startSceneID != nil {
-                    if currentSceneID != nil {
-                        SceneView(sceneID: $currentSceneID, appState: appState)
-                    } else {
+if currentSceneID != nil {
+                            SceneView(sceneID: $currentSceneID, appState: appState)
+                        } else {
                         sceneEndedContent
                     }
                 } else {

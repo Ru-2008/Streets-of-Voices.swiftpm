@@ -42,12 +42,14 @@ struct OnboardingCarouselView: View {
         let page = OnboardingPage.pages[currentPage]
         return Button {
             if isLastPage {
-                appState.showOnboarding = false
+                appState.hasSeenOnboarding = true
             } else {
-                currentPage += 1
+                withAnimation {
+                    currentPage += 1
+                }
             }
         } label: {
-            Text(isLastPage ? "Start Your Journey" : "Continue")
+            Text(isLastPage ? "Start Experience" : "Continue")
                 .font(.headline)
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 16)
@@ -83,7 +85,7 @@ struct OnboardingPageView: View {
                 .frame(width: 140, height: 140)
 
             Image(systemName: page.icon)
-                .font(.system(size: 56))
+                .font(.system(size: 80))
                 .foregroundStyle(page.accentColor)
                 .symbolRenderingMode(.hierarchical)
         }
@@ -92,12 +94,12 @@ struct OnboardingPageView: View {
     private var textSection: some View {
         VStack(spacing: 12) {
             Text(page.title)
-                .font(.title)
+                .font(.largeTitle)
                 .fontWeight(.bold)
                 .multilineTextAlignment(.center)
 
             Text(page.subtitle)
-                .font(.body)
+                .font(.title3)
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
         }

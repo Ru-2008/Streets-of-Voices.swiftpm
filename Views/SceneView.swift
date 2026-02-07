@@ -19,7 +19,7 @@ struct SceneView: View {
                 VStack(alignment: .leading, spacing: 12) {
                     ForEach(Array(scene.choices.enumerated()), id: \.offset) { _, choice in
                         Button {
-                            applyChoice(choice)
+                            applyChoice(choice, state: appState)
                         } label: {
                             Text(choice.label)
                                 .font(.subheadline)
@@ -47,9 +47,9 @@ struct SceneView: View {
         }
     }
 
-    private func applyChoice(_ choice: SceneChoice) {
-        appState.stats = appState.stats.applying(choice.statDelta)
-        appState.addSummarySnippet(choice.label)
+    private func applyChoice(_ choice: SceneChoice, state: AppState) {
+        state.stats = state.stats.applying(choice.statDelta)
+        state.addSummarySnippet(choice.label)
         sceneID = choice.nextSceneID
     }
 }

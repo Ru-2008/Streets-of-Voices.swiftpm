@@ -6,25 +6,25 @@ struct SummaryView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 28) {
-                timelineSection
-                statsSection
+                timelineSection(state: appState)
+                statsSection(state: appState)
                 reflectionSection
             }
             .padding()
         }
     }
 
-    private var timelineSection: some View {
+    private func timelineSection(state: AppState) -> some View {
         VStack(alignment: .leading, spacing: 12) {
             Text("Your day")
                 .font(.headline)
-            if appState.summarySnippets.isEmpty {
+            if state.summarySnippets.isEmpty {
                 Text("No moments recorded yet.")
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
             } else {
                 VStack(alignment: .leading, spacing: 8) {
-                    ForEach(appState.summarySnippets) { snippet in
+                    ForEach(state.summarySnippets) { snippet in
                         HStack(alignment: .top, spacing: 12) {
                             Text("\(snippet.order + 1)")
                                 .font(.caption)
@@ -42,13 +42,13 @@ struct SummaryView: View {
         }
     }
 
-    private var statsSection: some View {
+    private func statsSection(state: AppState) -> some View {
         VStack(alignment: .leading, spacing: 12) {
             Text("Starting vs ending")
                 .font(.headline)
             HStack(spacing: 24) {
-                statBlock(title: "Starting", stats: appState.startingStats)
-                statBlock(title: "Ending", stats: appState.stats)
+                statBlock(title: "Starting", stats: state.startingStats)
+                statBlock(title: "Ending", stats: state.stats)
             }
         }
     }

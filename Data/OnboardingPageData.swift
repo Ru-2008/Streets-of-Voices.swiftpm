@@ -19,7 +19,7 @@ struct OnboardingPage: Identifiable {
             id: 1,
             icon: "map",
             title: "See the Same Town",
-            subtitle: "Places don't change — perspectives do.",
+            subtitle: "Places don’t change — perspectives do.",
             accentColor: .green
         ),
         OnboardingPage(

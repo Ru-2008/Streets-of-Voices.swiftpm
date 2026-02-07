@@ -1,5 +1,6 @@
 import SwiftUI
 
+@MainActor
 struct CharacterSelectView: View {
     @ObservedObject var appState: AppState
 
@@ -16,6 +17,7 @@ struct CharacterSelectView: View {
                 }
             }
             .padding(.horizontal)
+            .padding(.vertical, 8)
         }
     }
 }
@@ -27,20 +29,45 @@ struct CharacterCard: View {
 
     var body: some View {
         Button(action: action) {
-            VStack(spacing: 12) {
-                Image(systemName: character.avatarSymbol)
-                    .font(.system(size: 56))
-                    .foregroundStyle(isSelected ? Color.accentColor : .secondary)
-                    .frame(width: 80, height: 80)
-                    .background(Circle().fill(Color(.secondarySystemBackground)))
-
-                Text(character.name)
-                    .font(.headline)
-                    .foregroundStyle(.primary)
+            VStack(alignment: .leading, spacing: 12) {
+                HStack {
+                    Image(systemName: character.avatarName)
+                        .font(.title)
+                        .foregroundStyle(isSelected ? Color.accentColor : .secondary)
+                    
+                    Spacer()
+                }
+                
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(character.name)
+                        .font(.headline)
+                        .foregroundStyle(.primary)
+                    
+                    Text(character.role)
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                        .fontWeight(.medium)
+                }
+                
+                Text("\(character.age) years old")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                
+                Text(character.shortBio)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .multilineTextAlignment(.leading)
+                    .lineLimit(2)
+                
+                Text(character.mindset)
+                    .font(.caption2)
+                    .foregroundStyle(.secondary)
+                    .italic()
+                    .multilineTextAlignment(.leading)
+                    .lineLimit(2)
             }
-            .frame(width: 120)
-            .padding(.vertical, 16)
-            .padding(.horizontal, 12)
+            .frame(width: 160, alignment: .leading)
+            .padding()
             .background(
                 RoundedRectangle(cornerRadius: 12)
                     .fill(Color(.secondarySystemBackground))
