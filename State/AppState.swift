@@ -8,6 +8,10 @@ final class AppState: ObservableObject {
     @Published var summarySnippets: [SummarySnippet] = []
     @Published var dayEnded: Bool = false
     @Published var selectedCharacter: Character?
+    @Published var completedCharacters: [Character] = []
+    @Published var showComparison: Bool = false
+    @Published var showScanner: Bool = false
+    @Published var scannedLocationID: String?
 
     func selectCharacter(_ character: Character) {
         selectedCharacter = character
@@ -20,6 +24,18 @@ final class AppState: ObservableObject {
     func addSummarySnippet(_ text: String) {
         let order = summarySnippets.count
         summarySnippets.append(SummarySnippet(order: order, text: text))
+    }
+    
+    func completeDay() {
+        if let character = selectedCharacter {
+            if !completedCharacters.contains(where: { $0.id == character.id }) {
+                completedCharacters.append(character)
+            }
+            
+            if completedCharacters.count == 2 {
+                showComparison = true
+            }
+        }
     }
 }
 

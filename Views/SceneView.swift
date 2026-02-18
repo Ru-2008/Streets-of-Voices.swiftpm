@@ -11,6 +11,14 @@ struct SceneView: View {
     var body: some View {
         if let scene = scene {
             VStack(alignment: .leading, spacing: 24) {
+                if let innerThought = scene.innerThought {
+                    Text(innerThought)
+                        .font(.callout)
+                        .italic()
+                        .foregroundStyle(.secondary)
+                        .padding(.bottom, 8)
+                }
+                
                 Text(scene.text)
                     .font(.body)
                     .foregroundStyle(.primary)
@@ -49,7 +57,7 @@ struct SceneView: View {
 
     private func applyChoice(_ choice: SceneChoice, state: AppState) {
         state.stats = state.stats.applying(choice.statDelta)
-        state.addSummarySnippet(choice.label)
+        state.addSummarySnippet(choice.emotionalNote)
         sceneID = choice.nextSceneID
     }
 }

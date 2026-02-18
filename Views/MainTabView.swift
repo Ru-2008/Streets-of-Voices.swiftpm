@@ -45,12 +45,24 @@ struct HomeTabView: View {
                     PrimaryActionView(appState: appState)
                     if let character = appState.selectedCharacter {
                         ProgressSnapshotView(character: character)
+                        if !appState.dayEnded {
+                            Button("End day") {
+                                appState.dayEnded = true
+                                appState.completeDay()
+                            }
+                            .buttonStyle(.borderedProminent)
+                            .controlSize(.large)
+                        }
                     }
                 }
                 .padding(.horizontal)
                 .padding(.bottom)
             }
             .navigationTitle("Home")
+            .fullScreenCover(isPresented: $appState.showComparison) {
+                ComparisonView()
+                    .environmentObject(appState)
+            }
         }
     }
 }

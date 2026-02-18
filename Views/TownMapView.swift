@@ -1,5 +1,6 @@
 import SwiftUI
 
+@MainActor
 struct TownMapView: View {
     @ObservedObject var appState: AppState
     @State private var sceneLocation: Location?
@@ -28,6 +29,13 @@ struct TownMapView: View {
                 onDismiss: { inaccessibleLocation = nil }
             )
         }
+        .fullScreenCover(isPresented: $appState.showScanner) {
+            if let locationID = appState.scannedLocationID,
+               let location = Location.all.first(where: { $0.id == locationID }) {
+                ScannerView(location: location)
+                    .environmentObject(appState)
+            }
+        }
     }
 
     private func tryOpenLocation(_ location: Location) {
@@ -36,7 +44,8 @@ struct TownMapView: View {
             return
         }
         if location.isAccessible(by: character) {
-            sceneLocation = location
+            appState.scannedLocationID = location.id
+            appState.showScanner = true
         } else {
             inaccessibleLocation = location
         }
@@ -75,20 +84,20 @@ struct LocationSceneView: View {
     @ObservedObject var appState: AppState
     @State private var currentSceneID: String?
     @Environment(\.dismiss) private var dismiss
-
+    
     init(location: Location, appState: AppState) {
         self.location = location
         self.appState = appState
         _currentSceneID = State(initialValue: location.startSceneID)
     }
-
+    
     var body: some View {
         NavigationStack {
             Group {
                 if location.startSceneID != nil {
-if currentSceneID != nil {
-                            SceneView(sceneID: $currentSceneID, appState: appState)
-                        } else {
+                    if currentSceneID != nil {
+                        SceneView(sceneID: $currentSceneID, appState: appState)
+                    } else {
                         sceneEndedContent
                     }
                 } else {
@@ -100,7 +109,10 @@ if currentSceneID != nil {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("Close") { dismiss() }
+                    Button("Close") { 
+                        appState.scannedLocationID = nil
+                        dismiss() 
+                    }
                 }
             }
         }

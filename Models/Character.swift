@@ -7,7 +7,9 @@ struct Character: Identifiable, Equatable {
     let age: Int
     let shortBio: String
     let mindset: String
+    let coreValues: [String]
     let dailyGoal: String
+    let emotionalBaseline: String
     let avatarName: String
     let baseStats: Stats
 
