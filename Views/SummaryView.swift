@@ -10,6 +10,10 @@ struct SummaryView: View {
                 timelineSection(state: appState)
                 statsSection(state: appState)
                 reflectionSection
+                
+                if appState.playthroughs.count == 1 {
+                    nextStepsSection(state: appState)
+                }
             }
             .padding()
         }
@@ -122,5 +126,21 @@ struct SummaryView: View {
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
         }
+    }
+    
+    private func nextStepsSection(state: AppState) -> some View {
+        VStack(spacing: 16) {
+            Text("Now experience the same morning through another life.")
+                .font(.headline)
+                .multilineTextAlignment(.center)
+            
+            Button("Select Next Character") {
+                state.selectedTab = .characters
+            }
+            .buttonStyle(.borderedProminent)
+            .controlSize(.large)
+        }
+        .padding(.top, 24)
+        .frame(maxWidth: .infinity)
     }
 }

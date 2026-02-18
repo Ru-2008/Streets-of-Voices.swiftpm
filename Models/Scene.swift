@@ -4,6 +4,7 @@ struct Scene: Identifiable, Equatable {
     let id: String
     let text: String
     let innerThought: String?
+    let limitationNote: String?
     let emotionalImpact: String
     let characterID: String
     /// Exactly 2–3 choices per scene.
@@ -19,7 +20,8 @@ struct Scene: Identifiable, Equatable {
             Scene(
                 id: "library-intro",
                 text: "The library is quiet. Shelves line the walls and a librarian smiles from the desk.",
-                innerThought: nil,
+                innerThought: "I have to finish this chapter before the bell rings.",
+                limitationNote: nil,
                 emotionalImpact: "First impression of the library",
                 characterID: "aarav",
                 choices: [
@@ -29,9 +31,22 @@ struct Scene: Identifiable, Equatable {
                 ]
             ),
             Scene(
+                id: "library-intro-rohan",
+                text: "The library is quiet. The aisles between the shelves look narrow from here.",
+                innerThought: "I hope I can turn around in those aisles.",
+                limitationNote: "The aisles are adjustable width.",
+                emotionalImpact: "Assessed library accessibility",
+                characterID: "rohan",
+                choices: [
+                    SceneChoice(label: "Check the aisle width", statDelta: Stats(visits: 1, conversations: 0, discoveries: 0), emotionalNote: "Checked for accessibility", comparisonTag: "Checked access", nextSceneID: nil),
+                    SceneChoice(label: "Ask librarian for help", statDelta: Stats(visits: 1, conversations: 1, discoveries: 0), emotionalNote: "Asked for assistance", comparisonTag: "Sought help", nextSceneID: nil)
+                ]
+            ),
+            Scene(
                 id: "library-browse",
                 text: "You walk along the aisles. One book catches your eye.",
-                innerThought: nil,
+                innerThought: "I really shouldn't be spending time here, but...",
+                limitationNote: nil,
                 emotionalImpact: "Found an interesting book",
                 characterID: "aarav",
                 choices: [
@@ -42,7 +57,8 @@ struct Scene: Identifiable, Equatable {
             Scene(
                 id: "library-talk",
                 text: "The librarian tells you about the history of the building. You feel a little more at home here.",
-                innerThought: nil,
+                innerThought: "It's nice to talk to someone who isn't pressuring me.",
+                limitationNote: nil,
                 emotionalImpact: "Learned about the library's history",
                 characterID: "aarav",
                 choices: [
@@ -53,7 +69,8 @@ struct Scene: Identifiable, Equatable {
             Scene(
                 id: "park-intro",
                 text: "The park is green and calm. A path leads further in.",
-                innerThought: nil,
+                innerThought: "I hope the path is paved all the way through.",
+                limitationNote: "The gravel path is difficult to navigate.",
                 emotionalImpact: "Arrived at the peaceful park",
                 characterID: "rohan",
                 choices: [
@@ -64,7 +81,8 @@ struct Scene: Identifiable, Equatable {
             Scene(
                 id: "park-bench",
                 text: "At the end of the path you find a quiet bench. Someone has left a bookmark on the seat.",
-                innerThought: nil,
+                innerThought: "Finally, a place to rest where I don't feel in the way.",
+                limitationNote: nil,
                 emotionalImpact: "Found a thoughtful surprise at the bench",
                 characterID: "rohan",
                 choices: [

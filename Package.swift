@@ -17,9 +17,10 @@ let package = Package(
             name: "Streets of Voices",
             targets: ["AppModule"],
             bundleIdentifier: "com.rudrarajsinh.app.Streets-of-Voices",
+            teamIdentifier: "788P3925GD",
             displayVersion: "1.0",
             bundleVersion: "1",
-            appIcon: .placeholder(icon: .cloud),
+            appIcon: .asset("AppIcon"),
             accentColor: .presetColor(.cyan),
             supportedDeviceFamilies: [
                 .pad,
@@ -39,5 +40,5 @@ let package = Package(
             path: "."
         )
     ],
-    swiftLanguageModes: [.version("6")]
+    swiftLanguageVersions: [.version("6")]
 )

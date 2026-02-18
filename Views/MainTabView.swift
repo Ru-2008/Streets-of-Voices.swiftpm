@@ -59,7 +59,7 @@ struct HomeTabView: View {
                 .padding(.bottom)
             }
             .navigationTitle("Home")
-            .fullScreenCover(isPresented: $appState.showComparison) {
+            .fullScreenCover(isPresented: $appState.showPerspectiveComparison) {
                 ComparisonView()
                     .environmentObject(appState)
             }

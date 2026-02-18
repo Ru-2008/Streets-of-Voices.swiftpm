@@ -8,11 +8,22 @@ struct TownMapView: View {
 
     var body: some View {
         ScrollView {
+            if appState.playthroughs.count == 1, let character = appState.selectedCharacter {
+                Text("Viewing town through \(character.name)'s perspective")
+                    .font(.caption)
+                    .fontWeight(.bold)
+                    .foregroundStyle(.secondary)
+                    .textCase(.uppercase)
+                    .padding(.top, 8)
+                    .frame(maxWidth: .infinity, alignment: .center)
+            }
+            
             LazyVGrid(columns: [GridItem(.adaptive(minimum: 140))], spacing: 16) {
                 ForEach(Location.all) { location in
                     LocationButton(location: location) {
                         tryOpenLocation(location)
                     }
+                    .colorMultiply(appState.playthroughs.count == 1 ? .blue.opacity(0.9) : .white)
                 }
             }
             .padding(.horizontal)
@@ -88,7 +99,17 @@ struct LocationSceneView: View {
     init(location: Location, appState: AppState) {
         self.location = location
         self.appState = appState
-        _currentSceneID = State(initialValue: location.startSceneID)
+        
+        var initialID = location.startSceneID
+        if let startID = initialID, let character = appState.selectedCharacter {
+            // Check for character-specific alternate scene
+            let specificID = "\(startID)-\(character.id)"
+            if Scene.find(id: specificID) != nil {
+                initialID = specificID
+            }
+        }
+        
+        _currentSceneID = State(initialValue: initialID)
     }
     
     var body: some View {

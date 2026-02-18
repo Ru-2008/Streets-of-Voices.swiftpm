@@ -42,7 +42,7 @@ struct OnboardingCarouselView: View {
         let page = OnboardingPage.pages[currentPage]
         return Button {
             if isLastPage {
-                appState.hasSeenOnboarding = true
+                appState.completeOnboarding()
             } else {
                 withAnimation {
                     currentPage += 1

@@ -4,12 +4,12 @@ struct ComparisonView: View {
     @EnvironmentObject var appState: AppState
     @Environment(\.dismiss) private var dismiss
     
-    private var firstCharacter: Character? {
-        appState.completedCharacters.count >= 1 ? appState.completedCharacters[0] : nil
+    private var firstPlaythrough: Playthrough? {
+        appState.playthroughs.count >= 1 ? appState.playthroughs[0] : nil
     }
     
-    private var secondCharacter: Character? {
-        appState.completedCharacters.count >= 2 ? appState.completedCharacters[1] : nil
+    private var secondPlaythrough: Playthrough? {
+        appState.playthroughs.count >= 2 ? appState.playthroughs[1] : nil
     }
     
     var body: some View {
@@ -31,10 +31,10 @@ struct ComparisonView: View {
                     .padding(.horizontal)
                     
                     // Comparison cards
-                    if let first = firstCharacter, let second = secondCharacter {
+                    if let first = firstPlaythrough, let second = secondPlaythrough {
                         HStack(spacing: 20) {
-                            ComparisonCard(character: first, isLeft: true)
-                            ComparisonCard(character: second, isLeft: false)
+                            ComparisonCard(playthrough: first, isLeft: true)
+                            ComparisonCard(playthrough: second, isLeft: false)
                         }
                         .padding(.horizontal)
                     }
@@ -53,8 +53,8 @@ struct ComparisonView: View {
             .toolbar {
                 ToolbarItem(placement: .primaryAction) {
                     Button("Continue Exploring") {
-                        appState.completedCharacters.removeAll()
-                        appState.showComparison = false
+                        appState.playthroughs.removeAll()
+                        appState.showPerspectiveComparison = false
                         dismiss()
                     }
                     .buttonStyle(.borderedProminent)
@@ -65,40 +65,39 @@ struct ComparisonView: View {
 }
 
 struct ComparisonCard: View {
-    let character: Character
+    let playthrough: Playthrough
     let isLeft: Bool
-    @EnvironmentObject var appState: AppState
     
     var body: some View {
         VStack(spacing: 20) {
             // Avatar and name
             VStack(spacing: 12) {
-                Image(systemName: character.avatarName)
+                Image(systemName: playthrough.character.avatarName)
                     .font(.system(size: 48))
                     .foregroundStyle(.primary)
                 
-                Text(character.name)
+                Text(playthrough.character.name)
                     .font(.title2)
                     .fontWeight(.bold)
                 
-                Text(character.role)
+                Text(playthrough.character.role)
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
             }
             
             // Comparison bullets
             VStack(spacing: 12) {
-                ForEach(0..<min(3, appState.summarySnippets.count), id: \.self) { index in
+                ForEach(0..<min(3, playthrough.snippets.count), id: \.self) { index in
                     HStack {
                         if isLeft {
                             Text("•")
                                 .font(.headline)
                                 .foregroundStyle(.primary)
-                            Text(appState.summarySnippets[index].text)
+                            Text(playthrough.snippets[index].text)
                                 .font(.subheadline)
                                 .multilineTextAlignment(.leading)
                         } else {
-                            Text(appState.summarySnippets[index].text)
+                            Text(playthrough.snippets[index].text)
                                 .font(.subheadline)
                                 .multilineTextAlignment(.trailing)
                             Text("•")
@@ -110,7 +109,7 @@ struct ComparisonCard: View {
             }
             
             // Emotional outcome
-            Text("Felt \(character.emotionalBaseline) by the end of the morning")
+            Text("Felt \(playthrough.emotionalTone) by the end of the morning")
                 .font(.subheadline)
                 .italic()
                 .foregroundStyle(.secondary)

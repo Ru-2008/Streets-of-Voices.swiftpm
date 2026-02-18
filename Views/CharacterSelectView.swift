@@ -6,14 +6,27 @@ struct CharacterSelectView: View {
 
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
+            if appState.playthroughs.count == 1 {
+                Text("Choose your second perspective")
+                    .font(.headline)
+                    .foregroundStyle(.secondary)
+                    .padding(.horizontal)
+            }
+            
             HStack(spacing: 16) {
                 ForEach(Character.all) { character in
+                    let isCompleted = appState.playthroughs.contains(where: { $0.character.id == character.id })
+                    
                     CharacterCard(
                         character: character,
                         isSelected: appState.selectedCharacter?.id == character.id
                     ) {
-                        appState.selectCharacter(character)
+                        if !isCompleted {
+                            appState.selectCharacter(character)
+                        }
                     }
+                    .opacity(isCompleted ? 0.5 : 1.0)
+                    .grayscale(isCompleted ? 1.0 : 0.0)
                 }
             }
             .padding(.horizontal)

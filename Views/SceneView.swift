@@ -19,6 +19,17 @@ struct SceneView: View {
                         .padding(.bottom, 8)
                 }
                 
+                if let limitationNote = scene.limitationNote {
+                    HStack(spacing: 8) {
+                        Image(systemName: "exclamationmark.triangle.fill")
+                            .foregroundStyle(.orange)
+                        Text(limitationNote)
+                            .font(.subheadline)
+                            .foregroundStyle(.secondary)
+                    }
+                    .padding(.bottom, 8)
+                }
+                
                 Text(scene.text)
                     .font(.body)
                     .foregroundStyle(.primary)
